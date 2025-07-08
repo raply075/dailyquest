@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import '../services/supabase_task_service.dart';
 import '../models/task_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:dailyquest2/services/notification_service.dart';
+import 'dart:math';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
@@ -66,6 +68,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       setState(() => _isSaving = false);
       return;
     }
+
     final newTask = Task(
       id: '',
       userId: userId,
@@ -76,6 +79,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     );
 
     await _taskService.addTask(newTask);
+
+    // ✅ Tambahkan ini: set notifikasi pengingat
+    final randomId = Random().nextInt(100000);
+    await NotificationService.showDailyReminder(
+      id: randomId,
+      title: 'Tugas: $title',
+      body: desc.isNotEmpty ? desc : 'Jangan lupa selesaikan tugas ini.',
+      hour: _selectedDate.hour,
+      minute: _selectedDate.minute,
+    );
 
     if (mounted) {
       Navigator.pop(context, true);

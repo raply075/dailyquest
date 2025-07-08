@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = AuthService();
-    final userEmail = auth.getCurrentUserEmail();
+    final username = auth.getCurrentUsername();
 
     return Scaffold(
       appBar: AppBar(
@@ -81,7 +81,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              userEmail ?? 'Tidak ada user',
+              username ?? 'Tidak ada username',
               style: const TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 40),

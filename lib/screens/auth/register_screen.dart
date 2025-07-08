@@ -13,6 +13,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _authService = AuthService();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _usernameController = TextEditingController(); // <- Tambahan
+
   bool _loading = false;
   String? _error;
   String? _success;
@@ -28,6 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       await _authService.signUp(
         _emailController.text.trim(),
         _passwordController.text.trim(),
+        username: _usernameController.text.trim(), // <- Tambahan
       );
       setState(() {
         _success = "Registrasi berhasil! Silakan login.";
@@ -53,6 +56,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Text(_error!, style: const TextStyle(color: Colors.red)),
             if (_success != null)
               Text(_success!, style: const TextStyle(color: Colors.green)),
+            TextField(
+              controller: _usernameController, // <- Tambahan
+              decoration: const InputDecoration(labelText: 'Username'),
+            ),
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(labelText: 'Email'),
